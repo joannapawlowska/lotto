@@ -52,4 +52,4 @@ cloud:
       static: eu-central-1
   localstack:
     sqs:
-      url: http://localstack:4566
+      url: http://localhost:4566

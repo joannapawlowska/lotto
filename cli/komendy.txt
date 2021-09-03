@@ -1,0 +1,19 @@
+aws s3 mb s3://lotto.kupon --region eu-central-1 --endpoint-url http://localhost:4566
+
+aws s3 cp kupon-valid.txt s3://lotto.kupon/ --endpoint-url http://localhost:4566 --region eu-central-1
+
+aws lambda create-function --function-name lottolambda --endpoint-url http://localhost:4566 --runtime java11 --region eu-central-1 --handler pl.fissst.lbd.lambda.handler.Handler --zip-file fileb://target/lambda-1.0-SNAPSHOT.jar --role arn:aws:iam::12345:role/ignoreme
+
+aws s3api put-bucket-notification-configuration --bucket lotto.kupon --notification-configuration file://noti-config.json --endpoint-url http://localhost:4566 --region eu-central-1
+
+aws logs tail --since 2d /aws/lambda/lottolambda --region eu-central-1 --endpoint-url http://localhost:4566
+
+aws lambda update-function-code --function-name lottolambda --zip-file fileb://target/lambda-1.0-SNAPSHOT.jar --endpoint-url http://localhost:4566 --region eu-central-1
+
+aws sqs create-queue --queue-name lotto.bet --region eu-central-1 --endpoint-url http://localhost:4566
+
+aws sqs list-queues --region eu-central-1 --endpoint-url http://localhost:4566
+
+aws s3 ls s3://lotto.kupon --region eu-central-1 --endpoint-url http://localhost:4566
+
+aws sqs receive-message --queue-url http://localstack:4566/000000000000/lotto.bet --attribute-names All --message-attribute-names All --max-number-of-messages 10 --region eu-central-1 --endpoint-url http://localhost:4566
