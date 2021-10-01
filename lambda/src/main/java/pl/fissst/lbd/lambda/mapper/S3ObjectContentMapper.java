@@ -39,7 +39,7 @@ public class S3ObjectContentMapper {
                 .collect(Collectors.toList());
     }
 
-    static CouponApi mapToCouponApi(String coupon) throws NumberFormatException {
+    public static CouponApi mapToCouponApi(String coupon) throws NumberFormatException {
         Set<Integer> numbers = Arrays.stream(coupon.split(","))
                 .map(String::trim)
                 .map(Integer::parseInt)
@@ -52,7 +52,7 @@ public class S3ObjectContentMapper {
         return createNewCouponApi(numbers);
     }
 
-    static CouponApi createNewCouponApi(Set<Integer> numbers) {
+    private static CouponApi createNewCouponApi(Set<Integer> numbers) {
         CouponApi couponApi = new CouponApi();
         couponApi.setNumbers(numbers);
         return couponApi;
@@ -67,7 +67,7 @@ public class S3ObjectContentMapper {
         return createNewBetApi(coupons);
     }
 
-    static BetApi createNewBetApi(List<CouponApi> coupons) {
+    private static BetApi createNewBetApi(List<CouponApi> coupons) {
         BetApi betApi = new BetApi();
         betApi.setCoupons(coupons);
         return betApi;
